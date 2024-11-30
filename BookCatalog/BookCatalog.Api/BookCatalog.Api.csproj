@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookCatalog.Application\BookCatalog.Application.csproj" />
+    <ProjectReference Include="..\BookCatalog.Infra\BookCatalog.Infra.csproj" />
   </ItemGroup>
 
 </Project>
