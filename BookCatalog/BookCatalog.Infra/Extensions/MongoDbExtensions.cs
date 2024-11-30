@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
 
 namespace BookCatalog.Infra.Extensions
 {
@@ -9,10 +12,12 @@ namespace BookCatalog.Infra.Extensions
         {
             services.AddSingleton<MongoDbContext>(provider =>
             {
-                var connectionString = configuration.GetConnectionString("MongoDbSettings");
+                var connectionString = configuration["MongoDbSettings:ConnectionString"];
                 var databaseName = configuration["MongoDbSettings:DatabaseName"];
                 return new MongoDbContext(connectionString, databaseName);
             });
+
+            BsonSerializer.RegisterSerializer(new GuidSerializer(MongoDB.Bson.GuidRepresentation.Standard));
         }
     }
 }

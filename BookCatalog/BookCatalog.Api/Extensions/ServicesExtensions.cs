@@ -1,8 +1,7 @@
 ﻿using BookCatalog.Domain.Interfaces;
 using BookCatalog.Infra.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace BookCatalog.Infra.Extensions
+namespace BookCatalog.Api.Extensions
 {
     public static class ServicesExtensions
     {

@@ -1,3 +1,5 @@
+using BookCatalog.Api.Extensions;
+using BookCatalog.Application.Extensions;
 using BookCatalog.Infra.Extensions;
 
 namespace BookCatalog.Api
@@ -13,8 +15,9 @@ namespace BookCatalog.Api
             builder.Services.AddSwaggerGen();
 
             // Extensions
-            builder.Services.ConfigureServices();
             builder.Services.AddMongoDb(builder.Configuration);
+            builder.Services.ConfigureServices();
+            builder.Services.AddHandlers();
 
             var app = builder.Build();
 

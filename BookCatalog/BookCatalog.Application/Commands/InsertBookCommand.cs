@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using BookCatalog.Domain.Entities;
+using MediatR;
 
 namespace BookCatalog.Application.Commands
 {
@@ -10,5 +11,8 @@ namespace BookCatalog.Application.Commands
         public string Author { get; set; } = author;
         public DateTime PublishDate { get; set; } = publishDate;
         public string Genre { get; set; } = genre;
+
+        public BookEntity ToEntity()
+            => new(Title, Author, PublishDate, Genre);
     }
 }
