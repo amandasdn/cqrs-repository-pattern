@@ -1,0 +1,28 @@
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: BookCatalogDb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    build:
+      context: .
+      dockerfile: BookCatalog\Dockerfile
+    container_name: bookcatalog-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      MONGODBSETTINGS__CONNECTIONSTRING: "mongodb://admin:password@mongo-db:27017/BookCatalogDb?authSource=admin"
+    ports:
+      - "5000:8080"
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
