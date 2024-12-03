@@ -1,16 +1,12 @@
 ﻿using BookCatalog.Domain.Entities;
 using BookCatalog.Domain.Interfaces;
+using MongoDB.Driver;
 
 namespace BookCatalog.Infra.Repositories
 {
-    public class BookRepository : IBookRepository
+    public class BookRepository(MongoDbContext context) : IBookRepository
     {
-        private readonly MongoDbContext _context;
-
-        public BookRepository(MongoDbContext context)
-        {
-            _context = context;
-        }
+        private readonly MongoDbContext _context = context;
 
         public async Task<Guid> Add(BookEntity book)
         {
@@ -21,12 +17,27 @@ namespace BookCatalog.Infra.Repositories
 
         public async Task<List<BookEntity>> GetAll()
         {
-            throw new NotImplementedException();
+            var books = await _context.Books.Find(_ => true).ToListAsync();
+
+            return books;
         }
 
         public async Task<BookEntity?> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            var filter = Builders<BookEntity>.Filter.Eq(b => b.Id, id);
+
+            var book = await _context.Books.Find(filter).FirstOrDefaultAsync();
+
+            return book;
+        }
+
+        public async Task<List<BookEntity>> GetBookByTitleName(string title)
+        {
+            var filter = Builders<BookEntity>.Filter.Eq(b => b.Title, title);
+
+            var books = await _context.Books.Find(filter).ToListAsync();
+
+            return books;
         }
     }
 }

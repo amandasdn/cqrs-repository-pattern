@@ -8,13 +8,11 @@ namespace BookCatalog.Api.Controllers
     [Route("[controller]")]
     public class BooksController : ControllerBase
     {
-        private readonly ILogger<BooksController> _logger;
         private readonly IMediator _mediator;
 
-        public BooksController(IMediator mediator, ILogger<BooksController> logger)
+        public BooksController(IMediator mediator)
         {
             _mediator = mediator;
-            _logger = logger;
         }
 
         [HttpPost]
