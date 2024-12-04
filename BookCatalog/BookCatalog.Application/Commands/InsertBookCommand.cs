@@ -1,11 +1,12 @@
-﻿using BookCatalog.Domain.Entities;
+﻿using BookCatalog.Application.DTOs;
+using BookCatalog.Domain.Entities;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookCatalog.Application.Commands
 {
     public class InsertBookCommand(string title, string author, DateTime publishDate, string genre)
-        : IRequest<Guid>
+        : IRequest<BookDto>
     {
         public string Title { get; set; } = title;
 

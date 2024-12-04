@@ -8,9 +8,9 @@
             IsActive = true;
         }
 
-        public Guid Id { get; private set; }
-        public DateTime CreatedAt { get; private set; }
-        public bool IsActive { get; private set; }
+        public Guid Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public bool IsActive { get; set; }
 
         public void SetAsInactive()
         {

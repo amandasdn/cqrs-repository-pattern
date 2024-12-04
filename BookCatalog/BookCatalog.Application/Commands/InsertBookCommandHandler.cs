@@ -1,20 +1,28 @@
-﻿using BookCatalog.Domain.Interfaces;
+﻿using AutoMapper;
+using BookCatalog.Application.DTOs;
+using BookCatalog.Domain.Interfaces;
 using MediatR;
 
 namespace BookCatalog.Application.Commands
 {
-    public class InsertBookCommandHandler(IBookRepository bookRepository) : IRequestHandler<InsertBookCommand, Guid>
+    public class InsertBookCommandHandler(IBookRepository bookRepository, IMapper mapper)
+        : IRequestHandler<InsertBookCommand, BookDto>
     {
         private readonly IBookRepository _bookRepository = bookRepository
             ?? throw new ArgumentNullException(nameof(bookRepository));
 
-        public async Task<Guid> Handle(InsertBookCommand request, CancellationToken cancellationToken)
+        private readonly IMapper _mapper = mapper
+            ?? throw new ArgumentNullException(nameof(mapper));
+
+        public async Task<BookDto> Handle(InsertBookCommand request, CancellationToken cancellationToken)
         {
-            var book = request.ToEntity();
+            var bookEntity = request.ToEntity();
 
-            var resultId = await _bookRepository.Add(book);
+            var createdBookId = await _bookRepository.Add(bookEntity);
 
-            return resultId;
+            bookEntity.Id = createdBookId;
+
+            return _mapper.Map<BookDto>(bookEntity);
         }
     }
 }

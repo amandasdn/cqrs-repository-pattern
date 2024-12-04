@@ -1,4 +1,5 @@
-﻿using BookCatalog.Domain.Interfaces;
+﻿using BookCatalog.Application.DTOs;
+using BookCatalog.Domain.Interfaces;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -7,7 +8,7 @@ using System.Data;
 namespace BookCatalog.Application.Commands
 {
     public class InsertBookCommandValidateBehavior(IBookRepository bookRepository,IValidator<InsertBookCommand> validator)
-        : IPipelineBehavior<InsertBookCommand, Guid>
+        : IPipelineBehavior<InsertBookCommand, BookDto>
     {
         private readonly IBookRepository _bookRepository = bookRepository
             ?? throw new ArgumentNullException(nameof(bookRepository));
@@ -15,7 +16,7 @@ namespace BookCatalog.Application.Commands
         private readonly IValidator<InsertBookCommand> _validator = validator
             ?? throw new ArgumentNullException(nameof(validator));
 
-        public async Task<Guid> Handle(InsertBookCommand request, RequestHandlerDelegate<Guid> next, CancellationToken cancellationToken)
+        public async Task<BookDto> Handle(InsertBookCommand request, RequestHandlerDelegate<BookDto> next, CancellationToken cancellationToken)
         {
             ValidationResult validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
@@ -28,7 +29,7 @@ namespace BookCatalog.Application.Commands
 
             var bookExists = booksWithSameName
                 .Any(x =>
-                    x.PublishDate == request.PublishDate &&
+                    x.PublishDate.Date == request.PublishDate.Date &&
                     x.Author == request.Author &&
                     x.Genre == request.Genre
                 );

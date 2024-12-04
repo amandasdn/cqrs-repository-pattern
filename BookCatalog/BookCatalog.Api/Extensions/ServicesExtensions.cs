@@ -3,6 +3,7 @@ using BookCatalog.Infra.Repositories;
 using FluentValidation;
 using BookCatalog.Application.Commands;
 using BookCatalog.Application.Validators;
+using BookCatalog.Application.Mappings;
 
 namespace BookCatalog.Api.Extensions
 {
@@ -11,10 +12,9 @@ namespace BookCatalog.Api.Extensions
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddScoped<IBookRepository, BookRepository>();
-        }
 
-        public static void AddFluentValidationAndBehaviors(this IServiceCollection services)
-        {
+            services.AddAutoMapper(typeof(BookMappingProfile));
+
             services.AddScoped<IValidator<InsertBookCommand>, InsertBookCommandValidator>();
         }
     }

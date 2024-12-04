@@ -1,4 +1,5 @@
 ﻿using BookCatalog.Application.Commands;
+using BookCatalog.Application.DTOs;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,7 @@ namespace BookCatalog.Application.Extensions
             services.AddMediatR(config =>
                 config.RegisterServicesFromAssemblyContaining<InsertBookCommand>());
 
-            services.AddTransient<IPipelineBehavior<InsertBookCommand, Guid>, InsertBookCommandValidateBehavior>();
+            services.AddTransient<IPipelineBehavior<InsertBookCommand, BookDto>, InsertBookCommandValidateBehavior>();
 
             return services;
         }

@@ -18,7 +18,6 @@ namespace BookCatalog.Api
             builder.Services.AddMongoDb(builder.Configuration);
             builder.Services.ConfigureServices();
             builder.Services.AddHandlers();
-            builder.Services.AddFluentValidationAndBehaviors();
 
             var app = builder.Build();
 
